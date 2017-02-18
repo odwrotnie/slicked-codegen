@@ -17,3 +17,5 @@ libraryDependencies += "com.typesafe.slick" %% "slick-codegen" % slickVersion
 libraryDependencies += "joda-time" % "joda-time" % "2.9.7"
 
 libraryDependencies += "org.joda" % "joda-convert" % "1.8.1"
+
+libraryDependencies += "com.h2database" % "h2" % "1.4.187"

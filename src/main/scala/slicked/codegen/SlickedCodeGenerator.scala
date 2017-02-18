@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
 
-class SlickedCodeGenerator
+object SlickedCodeGenerator
   extends DBConfig
     with LazyLogging {
 
@@ -20,11 +20,11 @@ class SlickedCodeGenerator
   val FILE_NAME = s"$CONTAINER_NAME.scala"
 
   def main(args: Array[String]): Unit = {
-    logger.info(s"Generating model classes in $PACKAGE_NAME.$CONTAINER_NAME")
-    Await.ready(
+    logger.info(s"Generating model classes from $url in $PACKAGE_NAME.$CONTAINER_NAME")
+    Await.result(
       codegen.map(_.writeToFile(
         slickProfileString,
-        args(0),
+        "ASDF",
         PACKAGE_NAME,
         CONTAINER_NAME,
         FILE_NAME
@@ -43,6 +43,9 @@ class SlickedCodeGenerator
   val codegen: Future[SourceCodeGenerator] = db.run {
     DRIVER.defaultTables.map(_.filter(t => filterTable(t))).flatMap( DRIVER.createModelBuilder(_,false).buildModel )
   } map { model =>
+
+    logger.info("SCG " * 100)
+
     new slick.codegen.SourceCodeGenerator(model) {
 
       // add custom import for added data types

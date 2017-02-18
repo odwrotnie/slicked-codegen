@@ -7,8 +7,8 @@ right
 target
 */right
 .scala_dependencies
-*.db
 *.iml
+*.trace.db
 
 .idea
 .classpath
