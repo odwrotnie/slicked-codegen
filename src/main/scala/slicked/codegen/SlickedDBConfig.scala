@@ -3,15 +3,21 @@ package slicked.codegen
 import java.io.FileInputStream
 import java.util.Properties
 
+import com.typesafe.config.ConfigFactory
+import com.typesafe.scalalogging.LazyLogging
 import slick.jdbc.JdbcProfile
 
-trait DBConfig {
+trait SlickedDBConfig
+  extends LazyLogging {
 
-//  import scala.io.Source
-//  Source.fromResource("readme.txt").getLines
-//
-//  val prop = new Properties()
-//  prop.load(getClass().getResourceAsStream("slicked-db.properties"))
+  lazy val conf = ConfigFactory.load
+  lazy val profile = conf.getString("tsql.profile")
+  lazy val server = conf.getString("tsql.db.properties.serverName")
+  lazy val database = conf.getString("tsql.db.properties.databaseName")
+  lazy val user = conf.getString("tsql.db.properties.user")
+  lazy val password = conf.getString("tsql.db.properties.password")
+
+  logger.info(s"DB profile: $profile, server: $server, database: $database, user: $user, password: $password")
 
   /**
     * Tested with:

@@ -1,5 +1,6 @@
 package slicked.codegen
 
+import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 import slick.codegen.SourceCodeGenerator
 import slick.jdbc.JdbcBackend.DatabaseDef
@@ -11,7 +12,7 @@ import scala.concurrent._
 import scala.concurrent.duration._
 
 object SlickedCodeGenerator
-  extends DBConfig
+  extends SlickedDBConfig
     with LazyLogging {
 
   // override def url: String = "jdbc:h2:./example"
