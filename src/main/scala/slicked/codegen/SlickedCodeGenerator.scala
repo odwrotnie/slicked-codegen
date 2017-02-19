@@ -48,7 +48,6 @@ object SlickedCodeGenerator
   }
 
   import DRIVER._
-  val db: DRIVER.backend.DatabaseDef = DRIVER.api.Database.forConfig("tsql.db")
 
   // Filter out desired tables
   val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")
