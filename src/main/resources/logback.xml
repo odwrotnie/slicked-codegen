@@ -9,6 +9,8 @@
         </encoder>
     </appender>
 
+    <logger name="slick.basic" level="WARN"/>
+
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
     </root>
