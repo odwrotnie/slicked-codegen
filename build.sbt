@@ -14,6 +14,8 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0"
 
 libraryDependencies += "com.typesafe.slick" %% "slick-codegen" % slickVersion
 
+libraryDependencies += "com.typesafe.slick" %% "slick-hikaricp" % slickVersion
+
 libraryDependencies += "joda-time" % "joda-time" % "2.9.7"
 
 libraryDependencies += "org.joda" % "joda-convert" % "1.8.1"

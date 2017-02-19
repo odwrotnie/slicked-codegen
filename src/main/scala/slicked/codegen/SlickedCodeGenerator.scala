@@ -17,15 +17,15 @@ object SlickedCodeGenerator
 
   // override def url: String = "jdbc:h2:./example"
   // override def url: String = "jdbc:mysql://subeli.com:3306/slick?user=slick&password=slickslick1234"
-  override def url: String = "jdbc:mysql://subeli.com:3306/forex?user=krd&password=xaij5Es5"
+  // override def url: String = "jdbc:mysql://subeli.com:3306/forex?user=krd&password=xaij5Es5"
 
   val DRIVER: JdbcProfile = slickProfile
   val PACKAGE_NAME = "slicked.model"
   val CONTAINER_NAME = "Tables"
   val FILE_NAME = s"$CONTAINER_NAME.scala"
 
-  def main(args: Array[String]): Unit = {
-    logger.info(s"Generating model classes from $url in $PACKAGE_NAME.$CONTAINER_NAME")
+  def generate: Unit = {
+    //logger.info(s"Generating model classes from $url in $PACKAGE_NAME.$CONTAINER_NAME")
 
     val writeToFileFuture = codegen map { scg =>
 
@@ -47,7 +47,8 @@ object SlickedCodeGenerator
     logger.info(s"Generated model classes in $FILE_NAME")
   }
 
-  val db: DRIVER.backend.DatabaseDef = DRIVER.api.Database.forURL(url, driver = jdbcDriver)
+  import DRIVER._
+  val db: DRIVER.backend.DatabaseDef = DRIVER.api.Database.forConfig("tsql.db")
 
   // Filter out desired tables
   val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")

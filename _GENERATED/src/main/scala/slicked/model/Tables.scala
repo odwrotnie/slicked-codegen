@@ -2,7 +2,7 @@ package slicked.model
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {
-  val profile = class slick.jdbc.MySQLProfile
+  val profile = slick.jdbc.H2Profile
 } with Tables
 
 /** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
@@ -21,86 +21,66 @@ trait Tables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = EvNewDataTable.schema ++ ValueofTable.schema
+  lazy val schema: profile.SchemaDescription = CompanyTable.schema ++ PersonTable.schema
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
-  /** Entity class storing rows of table EvNewDataTable
-   *  @param timestamp Database column TIMESTAMP SqlType(TIMESTAMP)
-   *  @param tpe Database column TPE SqlType(VARCHAR), Length(16,true)
-   *  @param data Database column DATA SqlType(TEXT)
-   *  @param source Database column SOURCE SqlType(VARCHAR), Length(255,true), Default(None)
-   *  @param id Database column ID SqlType(INT), AutoInc, PrimaryKey
-   *  @param foreignId Database column FOREIGN_ID SqlType(VARCHAR), Length(255,true), Default(None) */
-  case class EvNewData(timestamp: org.joda.time.DateTime, tpe: String, data: String, source: Option[String] = None, id: Int, foreignId: Option[String] = None) extends SlickedRow
-  /** GetResult implicit for fetching EvNewData objects using plain SQL queries */
+  /** Entity class storing rows of table CompanyTable
+   *  @param id Database column ID SqlType(INTEGER), PrimaryKey
+   *  @param name Database column NAME SqlType(VARCHAR), Length(255,true)
+   *  @param address Database column ADDRESS SqlType(CLOB) */
+  case class Company(id: Int, name: String, address: Option[java.sql.Clob]) extends SlickedRow
+  /** GetResult implicit for fetching Company objects using plain SQL queries */
 
-  implicit def GetResultEvNewData(implicit e0: GR[org.joda.time.DateTime], e1: GR[String], e2: GR[Option[String]], e3: GR[Int]): GR[EvNewData] = GR{
+  implicit def GetResultCompany(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[java.sql.Clob]]): GR[Company] = GR{
     prs => import prs._
-    EvNewData.tupled((<<[org.joda.time.DateTime], <<[String], <<[String], <<?[String], <<[Int], <<?[String]))
+    Company.tupled((<<[Int], <<[String], <<?[java.sql.Clob]))
   }
                 
-  /** Table description of table EV_NEW_DATA. Objects of this class serve as prototypes for rows in queries. */
-  class EvNewDataTable(_tableTag: Tag) extends profile.api.Table[EvNewData](_tableTag, Some("forex"), "EV_NEW_DATA") with SlickedTable {
-    def * = (timestamp, tpe, data, source, id, foreignId) <> (EvNewData.tupled, EvNewData.unapply)
+  /** Table description of table COMPANY. Objects of this class serve as prototypes for rows in queries. */
+  class CompanyTable(_tableTag: Tag) extends profile.api.Table[Company](_tableTag, "COMPANY") with SlickedTable {
+    def * = (id, name, address) <> (Company.tupled, Company.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(timestamp), Rep.Some(tpe), Rep.Some(data), source, Rep.Some(id), foreignId).shaped.<>({r=>import r._; _1.map(_=> EvNewData.tupled((_1.get, _2.get, _3.get, _4, _5.get, _6)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(id), Rep.Some(name), address).shaped.<>({r=>import r._; _1.map(_=> Company.tupled((_1.get, _2.get, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
-    /** Database column TIMESTAMP SqlType(TIMESTAMP) */
-    val timestamp: Rep[org.joda.time.DateTime] = column[org.joda.time.DateTime]("TIMESTAMP")
-    /** Database column TPE SqlType(VARCHAR), Length(16,true) */
-    val tpe: Rep[String] = column[String]("TPE", O.Length(16,varying=true))
-    /** Database column DATA SqlType(TEXT) */
-    val data: Rep[String] = column[String]("DATA")
-    /** Database column SOURCE SqlType(VARCHAR), Length(255,true), Default(None) */
-    val source: Rep[Option[String]] = column[Option[String]]("SOURCE", O.Length(255,varying=true), O.Default(None))
-    /** Database column ID SqlType(INT), AutoInc, PrimaryKey */
-    val id: Rep[Int] = column[Int]("ID", O.AutoInc, O.PrimaryKey)
-    /** Database column FOREIGN_ID SqlType(VARCHAR), Length(255,true), Default(None) */
-    val foreignId: Rep[Option[String]] = column[Option[String]]("FOREIGN_ID", O.Length(255,varying=true), O.Default(None))
-
-    /** Index over (foreignId) (database name EV_NEW_DATA_FOREIGN_ID_index) */
-    val index1 = index("EV_NEW_DATA_FOREIGN_ID_index", foreignId)
+    /** Database column ID SqlType(INTEGER), PrimaryKey */
+    val id: Rep[Int] = column[Int]("ID", O.PrimaryKey)
+    /** Database column NAME SqlType(VARCHAR), Length(255,true) */
+    val name: Rep[String] = column[String]("NAME", O.Length(255,varying=true))
+    /** Database column ADDRESS SqlType(CLOB) */
+    val address: Rep[Option[java.sql.Clob]] = column[Option[java.sql.Clob]]("ADDRESS")
   }
-  /** Collection-like TableQuery object for table EvNewDataTable */
-  lazy val EvNewDataTable = new TableQuery(tag => new EvNewDataTable(tag))
+  /** Collection-like TableQuery object for table CompanyTable */
+  lazy val CompanyTable = new TableQuery(tag => new CompanyTable(tag))
 
-  /** Entity class storing rows of table ValueofTable
-   *  @param of Database column OF SqlType(VARCHAR), Length(16,true)
-   *  @param in Database column IN SqlType(VARCHAR), Length(16,true)
-   *  @param timestamp Database column TIMESTAMP SqlType(TIMESTAMP)
-   *  @param `val` Database column VAL SqlType(INT)
-   *  @param info Database column INFO SqlType(TEXT), Default(None) */
-  case class Valueof(of: String, in: String, timestamp: org.joda.time.DateTime, `val`: Int, info: Option[String] = None) extends SlickedRow
-  /** GetResult implicit for fetching Valueof objects using plain SQL queries */
+  /** Entity class storing rows of table PersonTable
+   *  @param id Database column ID SqlType(INTEGER), PrimaryKey
+   *  @param name Database column NAME SqlType(VARCHAR), Length(255,true)
+   *  @param company Database column COMPANY SqlType(INTEGER) */
+  case class Person(id: Int, name: Option[String], company: Option[Int]) extends SlickedRow
+  /** GetResult implicit for fetching Person objects using plain SQL queries */
 
-  implicit def GetResultValueof(implicit e0: GR[String], e1: GR[org.joda.time.DateTime], e2: GR[Int], e3: GR[Option[String]]): GR[Valueof] = GR{
+  implicit def GetResultPerson(implicit e0: GR[Int], e1: GR[Option[String]], e2: GR[Option[Int]]): GR[Person] = GR{
     prs => import prs._
-    Valueof.tupled((<<[String], <<[String], <<[org.joda.time.DateTime], <<[Int], <<?[String]))
+    Person.tupled((<<[Int], <<?[String], <<?[Int]))
   }
                 
-  /** Table description of table VALUEOF. Objects of this class serve as prototypes for rows in queries.
-   *  NOTE: The following names collided with Scala keywords and were escaped: val */
-  class ValueofTable(_tableTag: Tag) extends profile.api.Table[Valueof](_tableTag, Some("forex"), "VALUEOF") with SlickedTable {
-    def * = (of, in, timestamp, `val`, info) <> (Valueof.tupled, Valueof.unapply)
+  /** Table description of table PERSON. Objects of this class serve as prototypes for rows in queries. */
+  class PersonTable(_tableTag: Tag) extends profile.api.Table[Person](_tableTag, "PERSON") with SlickedTable {
+    def * = (id, name, company) <> (Person.tupled, Person.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(of), Rep.Some(in), Rep.Some(timestamp), Rep.Some(`val`), info).shaped.<>({r=>import r._; _1.map(_=> Valueof.tupled((_1.get, _2.get, _3.get, _4.get, _5)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(id), name, company).shaped.<>({r=>import r._; _1.map(_=> Person.tupled((_1.get, _2, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
-    /** Database column OF SqlType(VARCHAR), Length(16,true) */
-    val of: Rep[String] = column[String]("OF", O.Length(16,varying=true))
-    /** Database column IN SqlType(VARCHAR), Length(16,true) */
-    val in: Rep[String] = column[String]("IN", O.Length(16,varying=true))
-    /** Database column TIMESTAMP SqlType(TIMESTAMP) */
-    val timestamp: Rep[org.joda.time.DateTime] = column[org.joda.time.DateTime]("TIMESTAMP")
-    /** Database column VAL SqlType(INT)
-     *  NOTE: The name was escaped because it collided with a Scala keyword. */
-    val `val`: Rep[Int] = column[Int]("VAL")
-    /** Database column INFO SqlType(TEXT), Default(None) */
-    val info: Rep[Option[String]] = column[Option[String]]("INFO", O.Default(None))
+    /** Database column ID SqlType(INTEGER), PrimaryKey */
+    val id: Rep[Int] = column[Int]("ID", O.PrimaryKey)
+    /** Database column NAME SqlType(VARCHAR), Length(255,true) */
+    val name: Rep[Option[String]] = column[Option[String]]("NAME", O.Length(255,varying=true))
+    /** Database column COMPANY SqlType(INTEGER) */
+    val company: Rep[Option[Int]] = column[Option[Int]]("COMPANY")
 
-    /** Uniqueness Index over (timestamp,of,in) (database name VALUEOF_TIMESTAMP_OF_IN_pk) */
-    val index1 = index("VALUEOF_TIMESTAMP_OF_IN_pk", (timestamp, of, in), unique=true)
+    /** Foreign key referencing CompanyTable (database name PERSON_COMPANY_ID_FK) */
+    lazy val companyTableFk = foreignKey("PERSON_COMPANY_ID_FK", company, CompanyTable)(r => Rep.Some(r.id), onUpdate=ForeignKeyAction.Restrict, onDelete=ForeignKeyAction.Cascade)
   }
-  /** Collection-like TableQuery object for table ValueofTable */
-  lazy val ValueofTable = new TableQuery(tag => new ValueofTable(tag))
+  /** Collection-like TableQuery object for table PersonTable */
+  lazy val PersonTable = new TableQuery(tag => new PersonTable(tag))
 }

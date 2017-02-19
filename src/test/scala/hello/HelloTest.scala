@@ -9,6 +9,6 @@ class HelloTest
   with LazyLogging {
 
   "2 plus 2" should "equal 4" in {
-    SlickedCodeGenerator.main(Array())
+    SlickedCodeGenerator.generate
   }
 }
