@@ -6,6 +6,22 @@
 
 ## Autogenerate
 
+### SBT Task
+
+Add to build.sbt:
+
+```
+lazy val slickedCodegen = RootProject(uri("git://github.com/odwrotnie/slicked-codegen.git"))
+lazy val root = Project("root", file(".")) dependsOn(slickedCodegen)
+
+lazy val generateSlickedModel = taskKey[Unit]("Generate Model Code")
+fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
+```
+
+Run `sbt generateSlickedModel` to generate the model
+
+## Configuration
+
 `resources/application.conf`
 
 ### H2
