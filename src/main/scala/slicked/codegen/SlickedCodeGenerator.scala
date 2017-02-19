@@ -15,7 +15,8 @@ object SlickedCodeGenerator
     with LazyLogging {
 
   // override def url: String = "jdbc:h2:./example"
-  override def url: String = "jdbc:mysql://subeli.com:3306/slick?user=slick&password=slickslick1234"
+  // override def url: String = "jdbc:mysql://subeli.com:3306/slick?user=slick&password=slickslick1234"
+  override def url: String = "jdbc:mysql://subeli.com:3306/forex?user=krd&password=xaij5Es5"
 
   val DRIVER: JdbcProfile = slickProfile
   val PACKAGE_NAME = "slicked.model"

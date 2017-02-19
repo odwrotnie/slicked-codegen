@@ -1,8 +1,17 @@
 package slicked.codegen
 
+import java.io.FileInputStream
+import java.util.Properties
+
 import slick.jdbc.JdbcProfile
 
 trait DBConfig {
+
+//  import scala.io.Source
+//  Source.fromResource("readme.txt").getLines
+//
+//  val prop = new Properties()
+//  prop.load(getClass().getResourceAsStream("slicked-db.properties"))
 
   /**
     * Tested with:
