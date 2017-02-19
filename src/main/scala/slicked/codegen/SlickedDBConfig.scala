@@ -22,3 +22,6 @@ trait SlickedDBConfig
 
   lazy val keepAliveConnection = true
 }
+
+object SlickedDBConfig
+  extends SlickedDBConfig

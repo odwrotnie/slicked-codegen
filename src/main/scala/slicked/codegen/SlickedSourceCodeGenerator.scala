@@ -9,9 +9,9 @@ class SlickedSourceCodeGenerator(model: Model)
   // add custom import for added data types
   // override def code = "import my.package.Java8DateTypes._" + "\n" + super.code
 
-  val imports = "rzepaw.slicked.SlickedRow" ::
-    "rzepaw.slicked.SlickedTable" ::
-    "rzepaw.slicked.SlickMappers._" :: Nil
+  val imports = "slicked.SlickedRow" ::
+    "slicked.SlickedTable" ::
+    "slicked.SlickMappers._" :: Nil
 
   override def code = imports.map(i => s"import $i").mkString("\n// Custom imports start\n", "\n", "\n// Custom imports end\n\n") + super.code
 

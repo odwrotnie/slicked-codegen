@@ -11,9 +11,9 @@ trait Tables {
   import profile.api._
   
   // Custom imports start
-  import rzepaw.slicked.SlickedRow
-  import rzepaw.slicked.SlickedTable
-  import rzepaw.slicked.SlickMappers._
+  import slicked.SlickedRow
+  import slicked.SlickedTable
+  import slicked.SlickMappers._
   // Custom imports end
 
   import slick.model.ForeignKeyAction
