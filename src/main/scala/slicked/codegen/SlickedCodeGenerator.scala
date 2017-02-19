@@ -15,45 +15,36 @@ object SlickedCodeGenerator
   extends SlickedDBConfig
     with LazyLogging {
 
-  // override def url: String = "jdbc:h2:./example"
-  // override def url: String = "jdbc:mysql://subeli.com:3306/slick?user=slick&password=slickslick1234"
-  // override def url: String = "jdbc:mysql://subeli.com:3306/forex?user=krd&password=xaij5Es5"
+  val genConf = conf.getConfig("generator")
 
-  val DRIVER: JdbcProfile = slickProfile
-  val PACKAGE_NAME = "slicked.model"
-  val CONTAINER_NAME = "Tables"
-  val FILE_NAME = s"$CONTAINER_NAME.scala"
+  val PACKAGE_NAME: String = genConf.getString("package")
+  val CONTAINER_NAME: String = genConf.getString("object")
+  val FILE_NAME: String = s"$CONTAINER_NAME.scala"
+  val FOLDER: String = s"src/main/scala/${ PACKAGE_NAME.split(".").mkString("/") }"
 
   def generate: Unit = {
-    //logger.info(s"Generating model classes from $url in $PACKAGE_NAME.$CONTAINER_NAME")
-
     val writeToFileFuture = codegen map { scg =>
-
       scg.tablesByName.keys foreach { key =>
         logger.info(s"Generated table: ${ key.table }")
       }
-
       scg.writeToFile(
         slickProfileString,
-        s"_GENERATED/src/main/scala/${ PACKAGE_NAME.split(".").mkString("/") }",
+        FOLDER,
         PACKAGE_NAME,
         CONTAINER_NAME,
-        FILE_NAME
-      )
+        FILE_NAME)
     }
-
     Await.result(writeToFileFuture, 1.minute)
-
     logger.info(s"Generated model classes in $FILE_NAME")
   }
 
-  import DRIVER._
+  import slickProfile._
 
   // Filter out desired tables
   val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")
   def filterTable(t: MTable): Boolean = true //included contains t.name.name
 
   val codegen: Future[SourceCodeGenerator] = db.run {
-    DRIVER.defaultTables.map(_.filter(t => filterTable(t))).flatMap( DRIVER.createModelBuilder(_,false).buildModel )
-  } map { model => new SlickedSourceCodeGenerator((model)) }
+    slickProfile.defaultTables.map(_.filter(t => filterTable(t))).flatMap( slickProfile.createModelBuilder(_,false).buildModel )
+  } map { model => new SlickedSourceCodeGenerator(model) }
 }
