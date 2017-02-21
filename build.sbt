@@ -1,4 +1,4 @@
-name := "Slicked Codegen"
+name := "Slicked Model"
 
 version := "1.0"
 
