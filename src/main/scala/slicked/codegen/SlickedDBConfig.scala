@@ -11,7 +11,7 @@ trait SlickedDBConfig
 
   lazy val conf: Config = ConfigFactory.load.getConfig(CONFIG_ROOT)
 
-  lazy val slickProfileString: String = "slicked.codegen.SlickedDBConfig.profile"
+  lazy val slickProfileString: String = profile.getClass.toString.dropRight(1) // TODO "slicked.codegen.SlickedDBConfig.profile"
   lazy val profile: JdbcProfile = conf.getString("profile") match {
     case "slick.jdbc.H2Profile" => slick.jdbc.H2Profile
     case "slick.jdbc.MySQLProfile" => slick.jdbc.MySQLProfile
