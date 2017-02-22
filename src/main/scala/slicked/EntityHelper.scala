@@ -1,6 +1,6 @@
 package slicked
 
-import slicked.codegen.SlickedDBConfig.slickProfile.api._
+import slicked.codegen.SlickedDBConfig.profile.api._
 
 import scala.concurrent.Future
 

@@ -2,7 +2,7 @@ package slicked
 
 import com.typesafe.scalalogging.LazyLogging
 import slicked.codegen.SlickedDBConfig
-import slicked.codegen.SlickedDBConfig.slickProfile.api._
+import slicked.codegen.SlickedDBConfig.profile.api._
 
 import scala.concurrent._
 import scala.concurrent.duration._

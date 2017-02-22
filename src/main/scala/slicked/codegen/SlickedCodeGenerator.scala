@@ -38,13 +38,13 @@ object SlickedCodeGenerator
     logger.info(s"Generated model classes in $FILE_NAME")
   }
 
-  import slickProfile._
+  import profile._
 
   // Filter out desired tables
   val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")
   def filterTable(t: MTable): Boolean = true //included contains t.name.name
 
   val codegen: Future[SourceCodeGenerator] = db.run {
-    slickProfile.defaultTables.map(_.filter(t => filterTable(t))).flatMap( slickProfile.createModelBuilder(_,false).buildModel )
+    profile.defaultTables.map(_.filter(t => filterTable(t))).flatMap( profile.createModelBuilder(_,false).buildModel )
   } map { model => new SlickedSourceCodeGenerator(model) }
 }

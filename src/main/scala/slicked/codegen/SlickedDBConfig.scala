@@ -11,13 +11,13 @@ trait SlickedDBConfig
 
   lazy val conf: Config = ConfigFactory.load.getConfig(CONFIG_ROOT)
 
-  lazy val slickProfileString: String = conf.getString("profile")
-  lazy val slickProfile: JdbcProfile = slickProfileString match {
+  lazy val slickProfileString: String = "slicked.codegen.SlickedDBConfig.profile"
+  lazy val profile: JdbcProfile = conf.getString("profile") match {
     case "slick.jdbc.H2Profile" => slick.jdbc.H2Profile
     case "slick.jdbc.MySQLProfile" => slick.jdbc.MySQLProfile
   }
 
-  import slickProfile.api._
+  import profile.api._
   lazy val db: Database = Database.forConfig("db", conf)
 
   lazy val keepAliveConnection = true

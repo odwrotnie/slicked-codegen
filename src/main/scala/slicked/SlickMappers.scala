@@ -3,7 +3,7 @@ package slicked
 import java.sql.Timestamp
 
 import org.joda.time.DateTime
-import slicked.codegen.SlickedDBConfig.slickProfile.api._
+import slicked.codegen.SlickedDBConfig.profile.api._
 
 object SlickMappers {
 
