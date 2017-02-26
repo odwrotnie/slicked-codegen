@@ -2,6 +2,7 @@ package slicked.codegen
 
 import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
+import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
 
 trait SlickedDBConfig
@@ -10,15 +11,11 @@ trait SlickedDBConfig
   def CONFIG_ROOT = "model"
 
   lazy val conf: Config = ConfigFactory.load.getConfig(CONFIG_ROOT)
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile]("db", conf)
+  lazy val db: dbConfig.profile.api.Database = dbConfig.db
 
-  lazy val slickProfileString: String = profile.getClass.toString.dropRight(1) // TODO "slicked.codegen.SlickedDBConfig.profile"
-  lazy val profile: JdbcProfile = conf.getString("profile") match {
-    case "slick.jdbc.H2Profile" => slick.jdbc.H2Profile
-    case "slick.jdbc.MySQLProfile" => slick.jdbc.MySQLProfile
-  }
-
-  import profile.api._
-  lazy val db: Database = Database.forConfig("db", conf)
+  lazy val slickProfileString: String = dbConfig.profileName //profile.getClass.getName.toString.dropRight(1) // TODO "slicked.codegen.SlickedDBConfig.profile"
+  //lazy val profile: JdbcProfile = dbConfig.profile
 
   lazy val keepAliveConnection = true
 }

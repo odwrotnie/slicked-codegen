@@ -38,7 +38,7 @@ object SlickedCodeGenerator
     logger.info(s"Generated model classes in $FILE_NAME")
   }
 
-  import profile._
+  import dbConfig.profile._
 
   // Filter out desired tables
   val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")

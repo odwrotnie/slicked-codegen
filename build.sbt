@@ -4,7 +4,7 @@ version := "1.0"
 
 scalaVersion := "2.11.8"
 
-val slickVersion = "3.2.0-M2"
+val slickVersion = "3.2.0-RC1"
 
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
 

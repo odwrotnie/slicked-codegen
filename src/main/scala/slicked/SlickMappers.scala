@@ -3,9 +3,12 @@ package slicked
 import java.sql.Timestamp
 
 import org.joda.time.DateTime
-import slicked.codegen.SlickedDBConfig.profile.api._
+import slicked.codegen.SlickedDBConfig
 
-object SlickMappers {
+object SlickMappers
+  extends SlickedDBConfig {
+
+  import dbConfig.profile.api._
 
   implicit val DateTimeMapper = MappedColumnType.base[DateTime, Timestamp](
     (dt: DateTime) => new Timestamp(dt.getMillis),

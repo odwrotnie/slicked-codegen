@@ -1,11 +1,14 @@
 package slicked
 
-import slicked.codegen.SlickedDBConfig.profile.api._
-
+import slicked.codegen.SlickedDBConfig
+import slicked.codegen.SlickedDBConfig.dbConfig.profile.api._
 import scala.concurrent.Future
 
-abstract class EntityWithIdHelper[E <: { def id: Int }, T <: Table[E] { def id: Rep[Int] }](table: TableQuery[T])
-  extends EntityHelper[E, T](table) {
+abstract class EntityWithIdHelper[E <: { def id: Int }]
+  extends EntityHelper[E] {
+
+  type T <: Table[E] { def id: Rep[Int] }
+  def table: TableQuery[T]
 
   // TODO - http://stackoverflow.com/questions/41527702/scala-monocle-cannot-find-method-id-in-e
   // import monocle.Lens
@@ -27,8 +30,12 @@ abstract class EntityWithIdHelper[E <: { def id: Int }, T <: Table[E] { def id: 
   }
 }
 
-abstract class EntityHelper[E, T <: Table[E]](table: TableQuery[T])
-  extends SlickSupport {
+abstract class EntityHelper[E]
+  extends SlickSupport
+    with SlickedDBConfig {
+
+  type T <: Table[E]
+  def table: TableQuery[T]
 
   def delete(query: Query[T, E, Seq]): DBIO[Int] = query.delete
   def deleteAll(): DBIO[Int] = delete(allQuery)
