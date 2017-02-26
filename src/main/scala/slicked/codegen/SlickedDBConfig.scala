@@ -11,7 +11,7 @@ trait SlickedDBConfig
   def CONFIG_ROOT = "model"
 
   lazy val conf: Config = ConfigFactory.load.getConfig(CONFIG_ROOT)
-  lazy val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile]("db", conf)
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile](CONFIG_ROOT)
   lazy val db: dbConfig.profile.api.Database = dbConfig.db
 
   lazy val slickProfileString: String = dbConfig.profileName //profile.getClass.getName.toString.dropRight(1) // TODO "slicked.codegen.SlickedDBConfig.profile"
