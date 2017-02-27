@@ -31,7 +31,7 @@ object SlickedCodeGenerator
         logger.info(s"Generated table: ${ key.table }")
       }
       scg.writeToFile(
-        slickProfileString,
+        dbConfig.profileName,
         FOLDER,
         PACKAGE_NAME,
         CONTAINER_NAME,

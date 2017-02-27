@@ -16,7 +16,7 @@ trait SlickSupport
 
   implicit lazy val futureEC = scala.concurrent.ExecutionContext.Implicits.global
 
-  val DURATION = 60 seconds
+  val DURATION = 3 minutes
 
   // Wait for the result
   def await[R](f: => Future[R]): R = Await.result(f, DURATION)

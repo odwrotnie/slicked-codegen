@@ -7,15 +7,14 @@ import slick.jdbc.JdbcProfile
 
 object SlickedDatabaseConfig {
 
-  val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile](SlickedCodeGenerator.CONFIG_ROOT)
-  val profile: JdbcProfile = dbConfig.profile
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile](SlickedCodeGenerator.CONFIG_ROOT)
+  lazy val profile: JdbcProfile = dbConfig.profile
 }
 
 trait SlickedDatabaseConfig
   extends LazyLogging {
 
-  val profile: JdbcProfile = SlickedDatabaseConfig.profile
-  val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig
-  val db: profile.api.Database = SlickedDatabaseConfig.dbConfig.db
-  def slickProfileString: String = dbConfig.profileName
+  lazy val profile: JdbcProfile = SlickedDatabaseConfig.profile
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig
+  lazy val db: profile.api.Database = SlickedDatabaseConfig.dbConfig.db
 }
