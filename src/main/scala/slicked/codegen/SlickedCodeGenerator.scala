@@ -37,7 +37,7 @@ object SlickedCodeGenerator
         CONTAINER_NAME,
         FILE_NAME)
     }
-    Await.result(writeToFileFuture, 1.minute)
+    Await.result(writeToFileFuture, 5.minutes)
     logger.info(s"Generated model classes in $FILE_NAME")
   }
 
