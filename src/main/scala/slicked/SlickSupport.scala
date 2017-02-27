@@ -1,6 +1,7 @@
 package slicked
 
 import com.typesafe.scalalogging.LazyLogging
+import slick.jdbc.JdbcProfile
 import slicked.codegen.SlickedDatabaseConfig
 
 import scala.concurrent._
@@ -8,8 +9,8 @@ import scala.concurrent.duration._
 import scala.util.Try
 
 trait SlickSupport
-  extends SlickedDatabaseConfig
-  with LazyLogging {
+  extends HasSlickProfile
+    with LazyLogging{
 
   import profile.api._
 

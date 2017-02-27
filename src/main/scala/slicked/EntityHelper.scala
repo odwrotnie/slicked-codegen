@@ -7,7 +7,6 @@ import scala.concurrent.Future
 abstract class EntityWithIdHelper
   extends EntityHelper {
 
-  val profile: JdbcProfile
   import profile.api._
 
   type E <: { def id: Int }
@@ -34,10 +33,9 @@ abstract class EntityWithIdHelper
   }
 }
 
-trait EntityHelper
+abstract class EntityHelper
   extends SlickSupport {
 
-  val profile: JdbcProfile
   import profile.api._
 
   type E
@@ -91,7 +89,3 @@ trait EntityHelper
     logger.debug(s"Inserted (${ getClass.getSimpleName.replace("$", "") }): $e")
   }
 }
-
-
-
-
