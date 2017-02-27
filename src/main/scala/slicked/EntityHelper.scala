@@ -1,12 +1,16 @@
 package slicked
 
-import slicked.codegen.SlickedDBConfig
-import slicked.codegen.SlickedDBConfig.dbConfig.profile.api._
+import slick.jdbc.JdbcProfile
+
 import scala.concurrent.Future
 
-abstract class EntityWithIdHelper[E <: { def id: Int }]
-  extends EntityHelper[E] {
+abstract class EntityWithIdHelper
+  extends EntityHelper {
 
+  val profile: JdbcProfile
+  import profile.api._
+
+  type E <: { def id: Int }
   type T <: Table[E] { def id: Rep[Int] }
   def table: TableQuery[T]
 
@@ -30,10 +34,13 @@ abstract class EntityWithIdHelper[E <: { def id: Int }]
   }
 }
 
-abstract class EntityHelper[E]
-  extends SlickSupport
-    with SlickedDBConfig {
+trait EntityHelper
+  extends SlickSupport {
 
+  val profile: JdbcProfile
+  import profile.api._
+
+  type E
   type T <: Table[E]
   def table: TableQuery[T]
 

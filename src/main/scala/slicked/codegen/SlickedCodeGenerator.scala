@@ -1,6 +1,6 @@
 package slicked.codegen
 
-import com.typesafe.config.ConfigFactory
+import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.LazyLogging
 import slick.codegen.SourceCodeGenerator
 import slick.jdbc.JdbcBackend.DatabaseDef
@@ -12,8 +12,11 @@ import scala.concurrent._
 import scala.concurrent.duration._
 
 object SlickedCodeGenerator
-  extends SlickedDBConfig
+  extends SlickedDatabaseConfig
     with LazyLogging {
+
+  def CONFIG_ROOT = "model"
+  val conf: Config = ConfigFactory.load.getConfig(CONFIG_ROOT)
 
   val genConf = conf.getConfig("generator")
 
@@ -38,7 +41,7 @@ object SlickedCodeGenerator
     logger.info(s"Generated model classes in $FILE_NAME")
   }
 
-  import dbConfig.profile._
+  import profile._
 
   // Filter out desired tables
   val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")

@@ -1,17 +1,17 @@
 package slicked
 
 import com.typesafe.scalalogging.LazyLogging
-import slicked.codegen.SlickedDBConfig
+import slicked.codegen.SlickedDatabaseConfig
 
 import scala.concurrent._
 import scala.concurrent.duration._
 import scala.util.Try
 
 trait SlickSupport
-  extends SlickedDBConfig
+  extends SlickedDatabaseConfig
   with LazyLogging {
 
-  import dbConfig.profile.api._
+  import profile.api._
 
   implicit lazy val futureEC = scala.concurrent.ExecutionContext.Implicits.global
 
