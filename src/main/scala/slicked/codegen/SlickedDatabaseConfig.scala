@@ -4,6 +4,7 @@ import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
 import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
+import slicked.DatabaseProfile
 
 object SlickedDatabaseConfig {
 
@@ -12,7 +13,7 @@ object SlickedDatabaseConfig {
 }
 
 trait SlickedDatabaseConfig
-  extends LazyLogging {
+  extends DatabaseProfile {
 
   lazy val profile: JdbcProfile = SlickedDatabaseConfig.profile
   lazy val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig

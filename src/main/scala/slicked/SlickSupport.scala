@@ -9,14 +9,14 @@ import scala.concurrent.duration._
 import scala.util.Try
 
 trait SlickSupport
-  extends HasSlickProfile
-    with LazyLogging{
+  extends LazyLogging{
 
+  self: DatabaseProfile =>
   import profile.api._
 
   implicit lazy val futureEC = scala.concurrent.ExecutionContext.Implicits.global
 
-  val DURATION = 3 minutes
+  val DURATION = 3.minutes
 
   // Wait for the result
   def await[R](f: => Future[R]): R = Await.result(f, DURATION)
