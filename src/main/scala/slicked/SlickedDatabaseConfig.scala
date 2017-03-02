@@ -1,10 +1,8 @@
-package slicked.codegen
+package slicked
 
-import com.typesafe.config._
-import com.typesafe.scalalogging.LazyLogging
 import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
-import slicked.DatabaseProfile
+import slicked.codegen.SlickedCodeGenerator
 
 object SlickedDatabaseConfig {
 

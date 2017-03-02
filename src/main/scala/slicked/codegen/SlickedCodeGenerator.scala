@@ -6,6 +6,7 @@ import slick.codegen.SourceCodeGenerator
 import slick.jdbc.JdbcBackend.DatabaseDef
 import slick.jdbc.JdbcProfile
 import slick.jdbc.meta.MTable
+import slicked.SlickedDatabaseConfig
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._

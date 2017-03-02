@@ -3,7 +3,6 @@ package slicked
 import java.sql.Timestamp
 
 import org.joda.time.DateTime
-import slicked.codegen.SlickedDatabaseConfig
 
 object SlickMappers
   extends SlickedDatabaseConfig {
