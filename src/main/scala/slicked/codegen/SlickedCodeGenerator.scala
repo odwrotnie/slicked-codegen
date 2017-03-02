@@ -11,6 +11,7 @@ import slicked.SlickedDatabaseConfig
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
+import scala.util.matching.Regex
 
 object SlickedCodeGenerator
   extends SlickedDatabaseConfig
@@ -18,7 +19,6 @@ object SlickedCodeGenerator
 
   def CONFIG_ROOT = "model"
   val conf: Config = ConfigFactory.load.getConfig(CONFIG_ROOT)
-
   val genConf = conf.getConfig("generator")
 
   val PACKAGE_NAME: String = genConf.getString("package")
@@ -45,8 +45,8 @@ object SlickedCodeGenerator
   import profile._
 
   // Filter out desired tables
-  val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")
-  def filterTable(t: MTable): Boolean = true //t.name.name.toLowerCase().contains("krd")
+  val tableFilterRegex: String = genConf.getString("tableFilterRegex")
+  def filterTable(t: MTable): Boolean =  t.name.name.toLowerCase().matches(tableFilterRegex)
 
   val codegen: Future[SourceCodeGenerator] = db.run {
     profile.defaultTables.map(_.filter(t => filterTable(t))).flatMap( profile.createModelBuilder(_,false).buildModel )
