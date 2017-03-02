@@ -45,7 +45,7 @@ object SlickedCodeGenerator
 
   // Filter out desired tables
   val included = Seq("COFFEES","SUPPLIERS","COF_INVENTORY")
-  def filterTable(t: MTable): Boolean = true //included contains t.name.name
+  def filterTable(t: MTable): Boolean = true //t.name.name.toLowerCase().contains("krd")
 
   val codegen: Future[SourceCodeGenerator] = db.run {
     profile.defaultTables.map(_.filter(t => filterTable(t))).flatMap( profile.createModelBuilder(_,false).buildModel )

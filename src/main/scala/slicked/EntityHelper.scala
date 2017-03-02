@@ -8,7 +8,7 @@ trait HasEntityWithIdHelper
   self: DatabaseProfile =>
   import profile.api._
 
-  abstract class EntityWithIdHelper[E <: {def id: Int}, T <: Table[E] {def id: Rep[Int]}]
+  abstract class EntityWithIdHelper[E <: {def id: Long}, T <: Table[E] {def id: Rep[Long]}]
     extends EntityHelper[E, T] {
 
     def table: TableQuery[T]
@@ -16,16 +16,16 @@ trait HasEntityWithIdHelper
     // TODO - http://stackoverflow.com/questions/41527702/scala-monocle-cannot-find-method-id-in-e
     // import monocle.Lens
     // import monocle.macros.GenLens
-    // def idLens: Lens[E, Int] = GenLens[E](_.id)
-    // def withId(e: E)(id: Int) = idLens.set(id)(e)
+    // def idLens: Lens[E, Long] = GenLens[E](_.id)
+    // def withId(e: E)(id: Long) = idLens.set(id)(e)
 
-    def withId(e: E)(id: Int): E
+    def withId(e: E)(id: Long): E
 
     override def insert(e: E): DBIO[E] = {
       require(e.id < 0, s"Inserting entity $e with defined id: ${e.id}")
       val newE = beforeInsert(e)
       val idAction = (table returning table.map(_.id)) += e
-      idAction.map { id: Int =>
+      idAction.map { id: Long =>
         val newEWithId = withId(e)(id)
         afterInsert(newEWithId)
         newEWithId
@@ -77,11 +77,11 @@ trait WithEntityHelper
     def stream(query: Query[T, E, Seq]): Stream[E] = streamify(query)
     def stream: Stream[E] = stream(allQuery)
 
-    def page(pageNum: Int, pageSize: Int): Future[Seq[E]] = page(allQuery, pageNum, pageSize)
-    def pages(pageSize: Int): Future[Long] = pages(allQuery, pageSize)
+    def page(pageNum: Long, pageSize: Long): Future[Seq[E]] = page(allQuery, pageNum, pageSize)
+    def pages(pageSize: Long): Future[Long] = pages(allQuery, pageSize)
 
-    def page(query: Query[T, E, Seq], pageNum: Int, pageSize: Int): Future[Seq[E]] = page(query, pageNum, pageSize)
-    def pages(query: Query[T, E, Seq], pageSize: Int): Future[Long] = pages(query, pageSize)
+    def page(query: Query[T, E, Seq], pageNum: Long, pageSize: Long): Future[Seq[E]] = page(query, pageNum, pageSize)
+    def pages(query: Query[T, E, Seq], pageSize: Long): Future[Long] = pages(query, pageSize)
 
     // BEFORE
     def beforeInsert(e: E): E = e
