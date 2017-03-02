@@ -2,6 +2,7 @@ package slicked.codegen
 
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.LazyLogging
+import rzepaw.config.Configuration
 import slick.codegen.SourceCodeGenerator
 import slick.jdbc.JdbcBackend.DatabaseDef
 import slick.jdbc.JdbcProfile
@@ -15,10 +16,10 @@ import scala.util.matching.Regex
 
 object SlickedCodeGenerator
   extends SlickedDatabaseConfig
-    with LazyLogging {
+    with LazyLogging
+    with Configuration {
 
-  def CONFIG_ROOT = "model"
-  val conf: Config = ConfigFactory.load.getConfig(CONFIG_ROOT)
+  val conf: Config = configuration.getConfig(SlickedDatabaseConfig.MODEL_CONFIG_ROOT)
   val genConf = conf.getConfig("generator")
 
   val PACKAGE_NAME: String = genConf.getString("package")

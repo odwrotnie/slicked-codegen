@@ -1,12 +1,17 @@
 package slicked
 
+import rzepaw.config.Configuration
 import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
 import slicked.codegen.SlickedCodeGenerator
 
-object SlickedDatabaseConfig {
+object SlickedDatabaseConfig
+  extends Configuration {
 
-  lazy val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile](SlickedCodeGenerator.CONFIG_ROOT)
+  def MODEL_CONFIG_ROOT = "model"
+
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] =
+    DatabaseConfig.forConfig[JdbcProfile](MODEL_CONFIG_ROOT, configuration)
   lazy val profile: JdbcProfile = dbConfig.profile
 }
 

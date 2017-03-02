@@ -26,3 +26,9 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.34"
 
 lazy val generateSlickedModel = taskKey[Unit]("Generate Model Code")
 fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
+
+//
+
+lazy val config = RootProject(uri("https://github.com/odwrotnie/config.git"))
+
+lazy val root = project.in(file(".")).dependsOn(config)
