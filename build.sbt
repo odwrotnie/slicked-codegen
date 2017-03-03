@@ -29,6 +29,6 @@ fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
 
 //
 
-lazy val configuration = RootProject(uri("https://github.com/odwrotnie/configuration.git"))
+lazy val allconfig = RootProject(uri("https://github.com/odwrotnie/allconfig.git"))
 
-lazy val root = project.in(file(".")).dependsOn(configuration)
+lazy val root = project.in(file(".")).dependsOn(allconfig)
