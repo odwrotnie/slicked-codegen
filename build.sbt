@@ -1,7 +1,5 @@
 name := "Slicked Model"
 
-version := "1.0"
-
 scalaVersion := "2.11.8"
 
 val slickVersion = "3.2.0"
