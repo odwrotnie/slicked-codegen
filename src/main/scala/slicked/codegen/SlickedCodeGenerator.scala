@@ -2,7 +2,7 @@ package slicked.codegen
 
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.LazyLogging
-import rzepaw.config.Configuration
+import rzepaw.configuration.Configuration
 import slick.codegen.SourceCodeGenerator
 import slick.jdbc.JdbcBackend.DatabaseDef
 import slick.jdbc.JdbcProfile

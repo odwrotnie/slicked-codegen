@@ -1,9 +1,8 @@
 package slicked
 
-import rzepaw.config.Configuration
+import rzepaw.configuration.Configuration
 import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
-import slicked.codegen.SlickedCodeGenerator
 
 object SlickedDatabaseConfig
   extends Configuration {
