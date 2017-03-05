@@ -1,7 +1,11 @@
 package slicked
 
+import java.sql.Timestamp
+
 import com.typesafe.scalalogging.LazyLogging
+import org.joda.time.DateTime
 import slick.jdbc.JdbcProfile
+import slick.lifted.CanBeQueryCondition
 
 import scala.concurrent._
 import scala.concurrent.duration._
@@ -63,4 +67,27 @@ trait SlickSupport
     Stream.from(0) map { pageNum =>
       page(query, pageNum, pageSize).await
     } takeWhile(_.nonEmpty) flatten
+
+  implicit val DateTimeMapper = MappedColumnType.base[DateTime, Timestamp](
+    (dt: DateTime) => new Timestamp(dt.getMillis),
+    (t: Timestamp) => new DateTime(t.getTime)
+  )
+
+  case class MaybeFilter[X, Y](query: Query[X, Y, Seq]) {
+    def filter[T, R: CanBeQueryCondition](data: Option[T])(f: T => X => R) = {
+      data.map(v => MaybeFilter(query.withFilter(f(v)))).getOrElse(this)
+    }
+    def filter[T, R: CanBeQueryCondition](list: Iterable[T])(f: Iterable[T] => X => R) = if (list.nonEmpty) {
+      MaybeFilter(query.withFilter(f(list)))
+    } else {
+      this
+    }
+    def filter[R: CanBeQueryCondition](condition: Boolean)(f: X => R) = if (condition) {
+      MaybeFilter(query.withFilter(f))
+    } else {
+      this
+    }
+    def filter[R: CanBeQueryCondition](f: X => R) =
+      MaybeFilter(query.withFilter(f))
+  }
 }
