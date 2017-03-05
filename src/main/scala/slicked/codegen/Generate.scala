@@ -1,8 +1,6 @@
 package slicked.codegen
 
-import com.typesafe.config.Config
 import rzepaw.configuration.Configuration
-import slicked.SlickedDatabaseConfig
 
 object Generate
   extends App
