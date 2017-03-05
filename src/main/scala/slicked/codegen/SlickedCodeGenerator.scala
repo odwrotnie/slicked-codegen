@@ -1,31 +1,23 @@
 package slicked.codegen
 
-import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.LazyLogging
-import rzepaw.configuration.Configuration
 import slick.codegen.SourceCodeGenerator
-import slick.jdbc.JdbcBackend.DatabaseDef
-import slick.jdbc.JdbcProfile
 import slick.jdbc.meta.MTable
 import slicked.SlickedDatabaseConfig
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
-import scala.util.matching.Regex
 
-object SlickedCodeGenerator
+case class SlickedCodeGenerator(packageName: String,
+                                containerName: String,
+                                fileName: String,
+                                folder: String,
+                                tableFilterRegex: String)
   extends SlickedDatabaseConfig
-    with LazyLogging
-    with Configuration {
+    with LazyLogging {
 
-  val conf: Config = configuration.getConfig(SlickedDatabaseConfig.MODEL_CONFIG_ROOT)
-  val genConf = conf.getConfig("generator")
-
-  val PACKAGE_NAME: String = genConf.getString("package")
-  val CONTAINER_NAME: String = genConf.getString("object")
-  val FILE_NAME: String = s"$CONTAINER_NAME.scala"
-  val FOLDER: String = s"src/main/scala/${ PACKAGE_NAME.split(".").mkString("/") }"
+  logger.debug(s"Generating in $packageName / $containerName, $folder / $fileName")
 
   def generate: Unit = {
     val writeToFileFuture = codegen map { scg =>
@@ -34,19 +26,15 @@ object SlickedCodeGenerator
       }
       scg.writeToFile(
         dbConfig.profileName,
-        FOLDER,
-        PACKAGE_NAME,
-        CONTAINER_NAME,
-        FILE_NAME)
+        folder,
+        packageName,
+        containerName,
+        fileName)
     }
     Await.result(writeToFileFuture, 5.minutes)
-    logger.info(s"Generated model classes in $FILE_NAME")
+    logger.info(s"Generated model classes in $fileName")
   }
 
-  import profile._
-
-  // Filter out desired tables
-  val tableFilterRegex: String = genConf.getString("tableFilterRegex")
   def filterTable(t: MTable): Boolean =  t.name.name.toLowerCase().matches(tableFilterRegex)
 
   val codegen: Future[SourceCodeGenerator] = db.run {
