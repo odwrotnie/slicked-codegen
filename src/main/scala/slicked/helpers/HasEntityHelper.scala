@@ -10,7 +10,10 @@ trait HasEntityHelper
   self: DatabaseProfile =>
   import profile.api._
 
-  abstract class EntityHelper[E, T <: Table[E]] {
+  type E
+  type T <: Table[E]
+
+  abstract class EntityHelper {
 
     def table: TableQuery[T]
 

@@ -10,8 +10,11 @@ trait HasEntityWithIdHelper
   self: DatabaseProfile =>
   import profile.api._
 
-  abstract class EntityWithIdHelper[E <: {def id: Long}, T <: Table[E] {def id: Rep[Long]}]
-    extends EntityHelper[E, T] {
+  type E <: {def id: Long}
+  type T <: Table[E] {def id: Rep[Long]}
+
+  abstract class EntityWithIdHelper
+    extends EntityHelper {
 
     def table: TableQuery[T]
 
