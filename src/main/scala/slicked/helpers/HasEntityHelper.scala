@@ -10,10 +10,15 @@ trait HasEntityHelper
   self: DatabaseProfile =>
   import profile.api._
 
-  type E
-  type T <: Table[E]
+  abstract class RichEntity[E, T <: Table[E]](e: E) {
+    def helper: EntityHelper[E, T]
+    def insert: DBIO[E] = helper.insert(e)
+    def getOrInsert(query: Query[_, E, Seq]): DBIO[E] = helper.getOrInsert(query, e)
+    def updateByQuery(query: Query[_, E, Seq]): DBIO[Int] = helper.updateByQuery(query, e)
+    def updateOrInsert(query: Query[_, E, Seq], e: E): DBIO[E] = helper.updateOrInsert(query, e)
+  }
 
-  abstract class EntityHelper {
+  abstract class EntityHelper[E, T <: Table[E]] {
 
     def table: TableQuery[T]
 

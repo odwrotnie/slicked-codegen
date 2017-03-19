@@ -1,0 +1,19 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                > %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="slick" level="WARN" />
+
+    <logger name="com.zaxxer.hikari" level="WARN" />
+
+    <root level="TRACE">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
