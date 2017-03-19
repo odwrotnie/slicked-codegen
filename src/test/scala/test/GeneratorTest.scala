@@ -16,7 +16,7 @@ class GeneratorTest
     val packageName: String = genConf.getString("package")
     val containerName: String = genConf.getString("object")
     val fileName: String = s"$containerName.scala"
-    val folderPath: String = s"test/main/scala/${ packageName.split(".").mkString("/") }"
+    val folderPath: String = s"src/test/scala/${ packageName.split(".").mkString("/") }"
     val tableFilterRegex: String = genConf.getString("tableFilterRegex")
 
     val scg = SlickedCodeGenerator(packageName, containerName, fileName, folderPath, tableFilterRegex)
