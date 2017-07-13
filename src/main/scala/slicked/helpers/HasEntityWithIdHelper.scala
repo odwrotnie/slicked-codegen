@@ -38,5 +38,13 @@ trait HasEntityWithIdHelper extends HasEntityHelper { self: DatabaseProfile =>
         newEWithId
       }
     }
+
+    def byId(id: Long): DBIO[Option[E]] = {
+      table.filter(_.id === id).result.headOption
+    }
+
+    def byIdGet(id: Long): DBIO[E] = {
+      table.filter(_.id === id).result.head
+    }
   }
 }
