@@ -54,8 +54,7 @@ class SlickedSourceCodeGenerator(model: Model)
         if (classEnabled) {
           s"""case class $name(${args.mkString(", ")})$prns"""
         } else {
-          s"""
-             |/** Constructor for $name providing default values if available in the database schema. */
+          s"""/** Constructor for $name providing default values if available in the database schema. */
              |case class $name(${args.map(arg => {s"$arg"}).mkString(", ")})$prns
              |type ${name}List = ${compoundType(types)}
              |object $name {
@@ -86,8 +85,7 @@ class SlickedSourceCodeGenerator(model: Model)
           } else {
             result(positional)
           }
-        s"""
-           |implicit def $name(implicit $dependencies): GR[${TableClass.elementType}] = GR{
+        s"""implicit def $name(implicit $dependencies): GR[${TableClass.elementType}] = GR{
            |  prs => import prs._
            |  ${indent(body)}
            |}
@@ -103,6 +101,15 @@ class SlickedSourceCodeGenerator(model: Model)
         val struct = compoundValue(columns.map(c=>if(c.fakeNullable)s"Rep.Some(${c.name})" else s"${c.name}"))
         val rhs = s"$struct <> ($factory, $extractor)"
         s"def * = $rhs"
+      }
+
+      override def code = {
+        val prns = parents.map(" with " + _).mkString("")
+        val args = Seq("\""+model.name.table+"\"")
+        s"""class $name(_tableTag: Tag) extends profile.api.Table[$elementType](_tableTag, ${args.mkString(", ")})$prns {
+           |  ${indent(body.map(_.mkString("\n")).mkString("\n\n"))}
+           |}
+              """.stripMargin
       }
     }
 
