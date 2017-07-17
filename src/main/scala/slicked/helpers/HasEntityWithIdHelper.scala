@@ -5,18 +5,17 @@ import slicked._
 import scala.concurrent.Future
 
 trait HasEntityWithIdHelper extends HasEntityHelper { self: DatabaseProfile =>
+
   import profile.api._
 
-  abstract class RichEntityWithId[E <: { def id: Long },
-  T <: Table[E] { def id: Rep[Long] }](e: E)
-      extends RichEntity[E, T](e) {
+  abstract class RichEntityWithId[E <: { def id: Long }, T <: Table[E] { def id: Rep[Long] }](e: E)
+    extends RichEntity[E, T](e) {
     def helper: EntityWithIdHelper[E, T]
     def withId(id: Long): E = helper.withId(e)(id)
   }
 
-  abstract class EntityWithIdHelper[
-      E <: { def id: Long }, T <: Table[E] { def id: Rep[Long] }]
-      extends EntityHelper[E, T] {
+  abstract class EntityWithIdHelper[E <: { def id: Long }, T <: Table[E] { def id: Rep[Long] }]
+    extends EntityHelper[E, T] {
 
     def table: TableQuery[T]
 
@@ -37,6 +36,11 @@ trait HasEntityWithIdHelper extends HasEntityHelper { self: DatabaseProfile =>
         afterInsert(newEWithId)
         newEWithId
       }
+    }
+
+    def update(e: E): DBIO[Int] = {
+      val q = table.filter(_.id === e.id)
+      q.update(e)
     }
 
     def byId(id: Long): DBIO[Option[E]] = {
