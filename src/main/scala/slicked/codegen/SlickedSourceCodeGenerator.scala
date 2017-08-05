@@ -93,7 +93,13 @@ class SlickedSourceCodeGenerator(model: Model)
       }
     }
 
+//    override def Table = new TableDef(model: slick.model.Table) {
+//
+//    }
+
     override def TableClass = new TableClassDef {
+
+
 
       override def parents: Seq[String] = Seq("SlickedTable")
 

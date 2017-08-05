@@ -17,7 +17,7 @@ case class SlickedCodeGenerator(packageName: String,
   extends SlickedDatabaseConfig
     with LazyLogging {
 
-  logger.debug(s"Generating in $packageName / $containerName, $folder / $fileName")
+  logger.debug(s"Generating trait $packageName.$containerName in $folder${packageName.replace(".", "/")}/$fileName")
 
   def generate: Unit = {
     val writeToFileFuture = codegen map { scg =>
