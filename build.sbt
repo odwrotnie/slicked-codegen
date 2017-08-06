@@ -1,6 +1,8 @@
-name := "Slicked Model"
+name := "slicked-model"
 
-version := "0.1-SNAPSHOT"
+organization := "it.wext"
+
+version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
