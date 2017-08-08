@@ -21,6 +21,7 @@ trait HasEntityHelper
   abstract class EntityHelper[E, T <: Table[E]] {
 
     def table: TableQuery[T]
+    lazy val tableName: String = table.baseTableRow.tableName
 
     def delete(query: Query[T, E, Seq]): DBIO[Int] = query.delete
     def deleteAll(): DBIO[Int] = delete(allQuery)
