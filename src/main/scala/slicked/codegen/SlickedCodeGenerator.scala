@@ -17,7 +17,12 @@ case class SlickedCodeGenerator(packageName: String,
   extends SlickedDatabaseConfig
     with LazyLogging {
 
-  logger.debug(s"Generating trait $packageName.$containerName in $folder${packageName.replace(".", "/")}/$fileName")
+  lazy val databaseName = dbConfig.config.getString("db.properties.databaseName")
+
+  logger.info(s"Generating trait $packageName.$containerName" +
+    s" from ${ dbConfig.profileName } / ${ dbConfig.config }" +
+    s" in $folder${packageName.replace(".", "/")}/$fileName" +
+    s" with [$tableFilterRegex] filter")
 
   def generate: Unit = {
     val writeToFileFuture = codegen map { scg =>
@@ -35,7 +40,7 @@ case class SlickedCodeGenerator(packageName: String,
     logger.info(s"Generated model classes in $fileName")
   }
 
-  def filterTable(t: MTable): Boolean =  t.name.name.toLowerCase().matches(tableFilterRegex)
+  def filterTable(t: MTable): Boolean = t.name.name.toLowerCase().matches(tableFilterRegex)
 
   val codegen: Future[SourceCodeGenerator] = db.run {
     profile.defaultTables.map(_.filter(t => filterTable(t))).flatMap( profile.createModelBuilder(_,false).buildModel )
