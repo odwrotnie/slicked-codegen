@@ -24,7 +24,7 @@ libraryDependencies += "org.joda" % "joda-convert" % "1.8.2"
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.196"
 
-libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.7-dmr"
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.43"
 
 lazy val generateSlickedModel = taskKey[Unit]("Generate Model Code")
 fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
