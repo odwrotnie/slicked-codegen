@@ -1,12 +1,11 @@
 package slicked.codegen
 
-import rzepaw.configuration.Configuration
+import com.typesafe.config.ConfigFactory
 
 object Generate
-  extends App
-  with Configuration {
+  extends App {
 
-  val genConf = configuration.getConfig("model.generator")
+  val genConf = ConfigFactory.load("model.generator")
 
   val packageName: String = genConf.getString("package")
   val containerName: String = genConf.getString("object")

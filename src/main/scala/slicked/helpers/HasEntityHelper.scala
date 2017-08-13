@@ -4,6 +4,7 @@ import slicked._
 
 import scala.concurrent.Future
 
+@deprecated("Use EntityHelper")
 trait HasEntityHelper
   extends SlickSupport {
 

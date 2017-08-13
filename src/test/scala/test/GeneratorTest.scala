@@ -1,17 +1,16 @@
 package test
 
+import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 import org.scalatest.FlatSpec
-import rzepaw.configuration.Configuration
-import slicked.codegen.{Generate, SlickedCodeGenerator}
+import slicked.codegen.SlickedCodeGenerator
 
 class GeneratorTest
   extends FlatSpec
-  with LazyLogging
-  with Configuration {
+  with LazyLogging {
 
   "Generator" should "generate" in {
-    val genConf = configuration.getConfig("model.generator")
+    val genConf = ConfigFactory.load("model.generator")
 
     val packageName: String = genConf.getString("package")
     val containerName: String = genConf.getString("object")

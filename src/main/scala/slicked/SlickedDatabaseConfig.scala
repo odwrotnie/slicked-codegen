@@ -1,16 +1,12 @@
 package slicked
 
-import rzepaw.configuration.Configuration
 import slick.basic.DatabaseConfig
 import slick.jdbc.{H2Profile, JdbcProfile}
 
-object SlickedDatabaseConfig
-  extends Configuration {
-
-  def MODEL_CONFIG_ROOT = "model"
+object SlickedDatabaseConfig {
 
   lazy val dbConfig: DatabaseConfig[JdbcProfile] =
-    DatabaseConfig.forConfig[JdbcProfile](MODEL_CONFIG_ROOT, configuration)
+    DatabaseConfig.forConfig[JdbcProfile]("model")
   lazy val profile: JdbcProfile = dbConfig.profile
 }
 

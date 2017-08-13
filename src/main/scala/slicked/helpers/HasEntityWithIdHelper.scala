@@ -2,10 +2,11 @@ package slicked.helpers
 
 import slicked._
 
-import scala.concurrent.Future
+@deprecated("Use EntityWithIdHelper")
+trait HasEntityWithIdHelper
+  extends HasEntityHelper {
 
-trait HasEntityWithIdHelper extends HasEntityHelper { self: DatabaseProfile =>
-
+  self: DatabaseProfile =>
   import profile.api._
 
   abstract class RichEntityWithId[E <: { def id: Long }, T <: Table[E] { def id: Rep[Long] }](e: E)

@@ -1,20 +1,15 @@
 package model
 
-import slicked.DatabaseProfile
-import slicked.helpers.HasEntityHelper
+import slicked.SlickedDatabaseConfig
+import slicked.helpers.EntityHelper
 
-trait EventHelper
-  extends HasEntityHelper {
+class EventHelper
+  extends EntityHelper
+    with Tables
+    with SlickedDatabaseConfig {
 
-  self: DatabaseProfile with Tables =>
+  override type ENT = Event
+  override type TBL = EventTable
 
-  val eventHelper = new EntityHelper[Event, EventTable] {
-    override def table = EventTable
-  }
-
-  implicit class RichEvent(e: Event)
-    extends RichEntity[Event, EventTable](e) {
-    override def helper = eventHelper
-    def onlyEventMethod: String = e.name.getOrElse("") + e.desc.getOrElse("")
-  }
+  override def table = EventTable
 }

@@ -3,7 +3,7 @@ package model
 import slicked.DatabaseProfile
 import slicked.helpers.HasEntityWithIdHelper
 
-trait CompanyHelper
+trait HasCompanyHelper
   extends HasEntityWithIdHelper {
 
   self: DatabaseProfile with Tables =>
