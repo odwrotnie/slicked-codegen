@@ -37,7 +37,7 @@ class SlickedSourceCodeGenerator(model: Model)
 
     override def EntityType = new EntityTypeDef {
 
-      override def parents: Seq[String] = Seq("SlickedRow")
+      override def parents: Seq[String] = Seq("SlickedRow") //, s"${rawName}Api")
 
       override def code = {
         val args = columns.map { c =>
