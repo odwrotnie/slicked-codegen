@@ -12,7 +12,7 @@ import scala.concurrent.duration._
 import scala.util.Try
 
 trait SlickSupport
-  extends LazyLogging{
+  extends LazyLogging {
 
   self: DatabaseProfile =>
   import profile.api._

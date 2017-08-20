@@ -17,8 +17,22 @@ trait SlickedDatabaseConfig
   lazy val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig
   lazy val db: profile.api.Database = SlickedDatabaseConfig.dbConfig.db
 
-  if(profile.isInstanceOf[H2Profile]) {
+  if (profile.isInstanceOf[H2Profile]) {
     // URL: jdbc:h2:tcp://localhost/mem:db
     org.h2.tools.Server.createTcpServer("-tcpAllowOthers").start()
   }
 }
+
+//trait SlickedDatabaseConfigFromTables
+//  extends DatabaseProfile {
+//
+//  lazy val tables: { def profile: JdbcProfile }
+//  lazy val profile: JdbcProfile = tables.profile
+//  lazy val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig
+//  lazy val db: profile.api.Database = SlickedDatabaseConfig.dbConfig.db
+//
+//  if (profile.isInstanceOf[H2Profile]) {
+//    // URL: jdbc:h2:tcp://localhost/mem:db
+//    org.h2.tools.Server.createTcpServer("-tcpAllowOthers").start()
+//  }
+//}

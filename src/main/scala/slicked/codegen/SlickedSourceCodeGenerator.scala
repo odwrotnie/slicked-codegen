@@ -76,7 +76,7 @@ class SlickedSourceCodeGenerator(model: Model)
         val rearranged = compoundValue(desiredColumnOrder.map(i => if(columns.size > 22) s"r($i)" else tuple(i)))
         def result(args: String) = s"$factory($args)"
         val body =
-          if(autoIncLastAsOption && columns.size > 1){
+          if (autoIncLastAsOption && columns.size > 1) {
             s"""
                |val r = $positional
                |import r._

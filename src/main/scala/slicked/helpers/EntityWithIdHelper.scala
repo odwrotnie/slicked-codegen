@@ -1,17 +1,16 @@
 package slicked.helpers
 
-import slicked._
+import slick.jdbc.JdbcProfile
+import slick.lifted.TableQuery
 
-trait EntityWithIdHelper[API]
-  extends EntityHelper[API] {
+abstract class EntityWithIdHelper[ENT <: { def id: Long },
+                                  TBL <: profile.api.Table[ENT] {
+                                    def id: profile.api.Rep[Long]
+                                  }](table: TableQuery[TBL])(
+    implicit override val profile: JdbcProfile)
+    extends EntityHelper[ENT, TBL](table)(profile) {
 
-  self: DatabaseProfile =>
   import profile.api._
-
-  type ENT <: { def id: Long }
-  type TBL <: Table[ENT] { def id: Rep[Long] }
-
-  def table: TableQuery[TBL]
 
   def withId(e: ENT)(id: Long): ENT
 

@@ -1,19 +1,18 @@
 package slicked.helpers
 
+import slick.jdbc.JdbcProfile
+import slick.lifted.TableQuery
 import slicked._
 
 import scala.concurrent.Future
 
-trait EntityHelper[API]
-  extends SlickSupport {
+abstract class EntityHelper[ENT, TBL <: profile.Table[ENT]](
+    table: TableQuery[TBL])(implicit val profile: JdbcProfile)
+    extends SlickSupport
+    with DatabaseProfile {
 
-  self: DatabaseProfile =>
   import profile.api._
 
-  type ENT <: Any
-  type TBL <: Table[ENT]
-
-  def table: TableQuery[TBL]
   lazy val tableName: String = table.baseTableRow.tableName
 
   def delete(query: Query[TBL, ENT, Seq]): DBIO[Int] = query.delete
@@ -28,38 +27,49 @@ trait EntityHelper[API]
     e
   }
 
-  def getOrInsert(query: Query[_, ENT, Seq], e: ENT): DBIO[ENT] = query.length.result.flatMap {
-    case i if i == 0 => insert(e)
-    case i if i == 1 => query.result.head
-    case i =>
-      val results: Seq[ENT] = query.result.await
-      DBIO.failed(new Exception(s"Get ${ getClass.getSimpleName } or insert $e query returned more than 1 ($i) row: ${ results.mkString(", ") }"))
-  }
+  def getOrInsert(query: Query[_, ENT, Seq], e: ENT): DBIO[ENT] =
+    query.length.result.flatMap {
+      case i if i == 0 => insert(e)
+      case i if i == 1 => query.result.head
+      case i =>
+        val results: Seq[ENT] = query.result.await
+        DBIO.failed(new Exception(
+          s"Get ${getClass.getSimpleName} or insert $e query returned more than 1 ($i) row: ${results
+            .mkString(", ")}"))
+    }
 
-  def updateByQuery(query: Query[_, ENT, Seq], e: ENT): DBIO[Int] = query.update(e)
-  def updateOrInsert(query: Query[_, ENT, Seq], e: ENT): DBIO[ENT] = query.length.result.flatMap {
-    case i if i == 0 => insert(e)
-    case i if i == 1 => updateByQuery(query, e).map(_ => e)
-    case i =>
-      val results: Seq[ENT] = query.result.await
-      DBIO.failed(new Exception(s"Update ${ getClass.getSimpleName } or insert $e query returned more than 1 ($i) row: ${ results.mkString(", ") }"))
-  }
+  def updateByQuery(query: Query[_, ENT, Seq], e: ENT): DBIO[Int] =
+    query.update(e)
+  def updateOrInsert(query: Query[_, ENT, Seq], e: ENT): DBIO[ENT] =
+    query.length.result.flatMap {
+      case i if i == 0 => insert(e)
+      case i if i == 1 => updateByQuery(query, e).map(_ => e)
+      case i =>
+        val results: Seq[ENT] = query.result.await
+        DBIO.failed(new Exception(
+          s"Update ${getClass.getSimpleName} or insert $e query returned more than 1 ($i) row: ${results
+            .mkString(", ")}"))
+    }
 
   def allQuery: Query[TBL, ENT, Seq] = table
   def stream(query: Query[TBL, ENT, Seq]): Stream[ENT] = streamify(query)
   def stream: Stream[ENT] = stream(allQuery)
 
-  def page(pageNum: Long, pageSize: Long): Future[Seq[ENT]] = page(allQuery, pageNum, pageSize)
+  def page(pageNum: Long, pageSize: Long): Future[Seq[ENT]] =
+    page(allQuery, pageNum, pageSize)
   def pages(pageSize: Long): Future[Long] = pages(allQuery, pageSize)
 
-  def page(query: Query[TBL, ENT, Seq], pageNum: Long, pageSize: Long): Future[Seq[ENT]] = page(query, pageNum, pageSize)
-  def pages(query: Query[TBL, ENT, Seq], pageSize: Long): Future[Long] = pages(query, pageSize)
+  def page(query: Query[TBL, ENT, Seq],
+           pageNum: Long,
+           pageSize: Long): Future[Seq[ENT]] = page(query, pageNum, pageSize)
+  def pages(query: Query[TBL, ENT, Seq], pageSize: Long): Future[Long] =
+    pages(query, pageSize)
 
   // BEFORE
   def beforeInsert(e: ENT): ENT = e
 
   // AFTER
   def afterInsert(e: ENT): Unit = {
-    logger.debug(s"Inserted (${ getClass.getSimpleName.replace("$", "") }): $e")
+    logger.debug(s"Inserted (${getClass.getSimpleName.replace("$", "")}): $e")
   }
 }
