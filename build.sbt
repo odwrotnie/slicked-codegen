@@ -1,4 +1,4 @@
-name := "slicked-model"
+name := "Slicked Model"
 
 organization := "it.wext"
 

@@ -10,7 +10,7 @@ trait SlickMappers {
 
   import profile.api._
 
-  implicit val DateTimeMapper = MappedColumnType.base[DateTime, Timestamp](
+  implicit lazy val DateTimeMapper = MappedColumnType.base[DateTime, Timestamp](
     (dt: DateTime) => new Timestamp(dt.getMillis),
     (t: Timestamp) => new DateTime(t.getTime)
   )
