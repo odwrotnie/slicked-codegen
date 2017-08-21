@@ -15,6 +15,7 @@ trait EntityHelper
   type TBL <: Table[ENT]
 
   def table: TableQuery[TBL]
+  def createSchema: Unit = await(table.schema.create.future)
   lazy val tableName: String = table.baseTableRow.tableName
 
   def delete(query: Query[TBL, ENT, Seq]): DBIO[Int] = query.delete
