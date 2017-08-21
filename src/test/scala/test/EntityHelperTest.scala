@@ -4,11 +4,10 @@ import model.{EventHelper, Tables}
 import org.scalatest.FlatSpec
 
 class EntityHelperTest
-  extends FlatSpec
-    with Tables {
+  extends FlatSpec {
 
   "Helper" should "help" in {
-    val e = Event(None, Some("INSERT"), None)
+    val e = EventHelper.Event(None, Some("INSERT"), None)
     EventHelper.insert(e)
   }
 }

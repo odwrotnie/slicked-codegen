@@ -4,8 +4,9 @@ import java.sql.Timestamp
 
 import org.joda.time.DateTime
 
-object SlickMappers
-  extends SlickedDatabaseConfig {
+trait SlickMappers {
+
+  self: HasDatabaseProfile =>
 
   import profile.api._
 

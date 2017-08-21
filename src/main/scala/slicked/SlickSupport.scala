@@ -12,9 +12,11 @@ import scala.concurrent.duration._
 import scala.util.Try
 
 trait SlickSupport
-  extends LazyLogging {
+  extends SlickMappers
+    with LazyLogging {
 
-  self: DatabaseProfile =>
+  self: HasDatabaseProfile with HasDatabaseInstance =>
+
   import profile.api._
 
   implicit lazy val futureEC = scala.concurrent.ExecutionContext.Implicits.global
@@ -67,11 +69,6 @@ trait SlickSupport
     Stream.from(0) map { pageNum =>
       page(query, pageNum, pageSize).await
     } takeWhile(_.nonEmpty) flatten
-
-  implicit val DateTimeMapper = MappedColumnType.base[DateTime, Timestamp](
-    (dt: DateTime) => new Timestamp(dt.getMillis),
-    (t: Timestamp) => new DateTime(t.getTime)
-  )
 
   case class MaybeFilter[X, Y](query: Query[X, Y, Seq]) {
     def filter[T, R: CanBeQueryCondition](data: Option[T])(f: T => X => R) = {

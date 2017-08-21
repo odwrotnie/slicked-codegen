@@ -1,38 +1,23 @@
 package slicked
 
 import slick.basic.DatabaseConfig
-import slick.jdbc.{H2Profile, JdbcProfile}
+import slick.jdbc.JdbcProfile
 
 object SlickedDatabaseConfig {
 
-  lazy val dbConfig: DatabaseConfig[JdbcProfile] =
-    DatabaseConfig.forConfig[JdbcProfile]("model")
-  lazy val profile: JdbcProfile = dbConfig.profile
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile]("model")
+  lazy val dbConfigProfile = dbConfig.profile
 }
 
 trait SlickedDatabaseConfig
-  extends DatabaseProfile {
+  extends HasDatabaseProfile
+    with HasDatabaseInstance {
 
-  lazy val profile: JdbcProfile = SlickedDatabaseConfig.profile
+  val profile = dbConfigProfile
+
   lazy val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig
-  lazy val db: profile.api.Database = SlickedDatabaseConfig.dbConfig.db
+  lazy val dbConfigProfile = SlickedDatabaseConfig.dbConfigProfile
+  lazy val db: profile.api.Database = dbConfig.db
 
-  if (profile.isInstanceOf[H2Profile]) {
-    // URL: jdbc:h2:tcp://localhost/mem:db
-    org.h2.tools.Server.createTcpServer("-tcpAllowOthers").start()
-  }
+  require(profile.getClass == dbConfigProfile.getClass, "Should never happen")
 }
-
-//trait SlickedDatabaseConfigFromTables
-//  extends DatabaseProfile {
-//
-//  lazy val tables: { def profile: JdbcProfile }
-//  lazy val profile: JdbcProfile = tables.profile
-//  lazy val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig
-//  lazy val db: profile.api.Database = SlickedDatabaseConfig.dbConfig.db
-//
-//  if (profile.isInstanceOf[H2Profile]) {
-//    // URL: jdbc:h2:tcp://localhost/mem:db
-//    org.h2.tools.Server.createTcpServer("-tcpAllowOthers").start()
-//  }
-//}

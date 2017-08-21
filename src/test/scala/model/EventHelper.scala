@@ -3,13 +3,12 @@ package model
 import slicked.SlickedDatabaseConfig
 import slicked.helpers.EntityHelper
 
-class EventHelper
+object EventHelper
   extends EntityHelper
-    with Tables
-    with SlickedDatabaseConfig {
+    with SlickedDatabaseConfig
+    with Tables {
 
   override type ENT = Event
   override type TBL = EventTable
-
-  override def table = EventTable
+  override val table = EventTable
 }
