@@ -1,5 +1,6 @@
 package slicked.helpers
 
+import slick.jdbc.meta.MTable
 import slicked._
 
 import scala.concurrent.Future
@@ -15,8 +16,12 @@ trait EntityHelper
   type TBL <: Table[ENT]
 
   def table: TableQuery[TBL]
-  def createSchema: Unit = await(table.schema.create.future)
-  lazy val tableName: String = table.baseTableRow.tableName
+  def createSchema(): Unit = {
+    if (MTable.getTables(tableName).await.isEmpty) {
+      table.schema.create.await
+    }
+  }
+  final lazy val tableName: String = table.baseTableRow.tableName
 
   def delete(query: Query[TBL, ENT, Seq]): DBIO[Int] = query.delete
   def deleteAll(): DBIO[Int] = delete(allQuery)
