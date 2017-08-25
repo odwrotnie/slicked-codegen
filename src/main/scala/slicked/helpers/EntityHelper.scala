@@ -1,7 +1,6 @@
 package slicked.helpers
 
 import com.typesafe.scalalogging.LazyLogging
-import slick.jdbc.meta.MTable
 import slicked._
 
 import scala.concurrent.Future
@@ -17,7 +16,7 @@ trait EntityHelper extends SlickSupport with LazyLogging {
 
   def table: TableQuery[TBL]
   def createSchema(): Unit =
-    MTable.getTables(tableName).await.headOption match {
+    mTableFromDB(tableName) match {
       case Some(mt) =>
         val columns = mt.getColumns.await.map(c => s"${c.name}:${c.typeName}")
         logger.debug(

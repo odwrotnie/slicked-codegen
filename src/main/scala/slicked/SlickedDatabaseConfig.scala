@@ -1,21 +1,28 @@
 package slicked
 
+import com.typesafe.scalalogging.LazyLogging
 import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
 
-object SlickedDatabaseConfig {
+object SlickedDatabaseConfig extends LazyLogging {
 
-  lazy val dbConfig: DatabaseConfig[JdbcProfile] = DatabaseConfig.forConfig[JdbcProfile]("model")
+  val APPLICATION_CONF_ROOT = "model"
+
+  logger.info(s"Database config root: $APPLICATION_CONF_ROOT")
+
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] =
+    DatabaseConfig.forConfig[JdbcProfile](APPLICATION_CONF_ROOT)
   lazy val dbConfigProfile = dbConfig.profile
 }
 
 trait SlickedDatabaseConfig
-  extends HasDatabaseProfile
+    extends HasDatabaseProfile
     with HasDatabaseInstance {
 
   val profile = dbConfigProfile
 
-  lazy val dbConfig: DatabaseConfig[JdbcProfile] = SlickedDatabaseConfig.dbConfig
+  lazy val dbConfig: DatabaseConfig[JdbcProfile] =
+    SlickedDatabaseConfig.dbConfig
   lazy val dbConfigProfile = SlickedDatabaseConfig.dbConfigProfile
   lazy val db: profile.api.Database = dbConfig.db
 
