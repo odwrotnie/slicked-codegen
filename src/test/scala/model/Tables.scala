@@ -24,27 +24,27 @@ trait Tables extends slicked.SlickMappers {
 
   /** Entity class storing rows of table CompanyTable
    *  @param id Database column ID SqlType(INTEGER), AutoInc, PrimaryKey
-   *  @param name Database column NAME SqlType(VARCHAR), Length(16777216,true)
-   *  @param address Database column ADDRESS SqlType(VARCHAR), Length(16777216,true) */
-  case class Company(id: Long, name: Option[String], address: Option[String]) extends SlickedRow
+   *  @param name Database column NAME SqlType(VARCHAR), Length(255,true)
+   *  @param address Database column ADDRESS SqlType(VARCHAR), Length(1024,true) */
+  case class Company(id: Long, name: String, address: Option[String]) extends SlickedRow
   /** GetResult implicit for fetching Company objects using plain SQL queries */
-  implicit def GetResultCompany(implicit e0: GR[Long], e1: GR[Option[String]]): GR[Company] = GR{
+  implicit def GetResultCompany(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]]): GR[Company] = GR{
     prs => import prs._
-    Company.tupled((<<[Long], <<?[String], <<?[String]))
+    Company.tupled((<<[Long], <<[String], <<?[String]))
   }
                 
   /** Table description of table COMPANY. Objects of this class serve as prototypes for rows in queries. */
   class CompanyTable(_tableTag: Tag) extends profile.api.Table[Company](_tableTag, "COMPANY") with SlickedTable {
     def * = (id, name, address) <> (Company.tupled, Company.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(id), name, address).shaped.<>({r=>import r._; _1.map(_=> Company.tupled((_1.get, _2, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(id), Rep.Some(name), address).shaped.<>({r=>import r._; _1.map(_=> Company.tupled((_1.get, _2.get, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column ID SqlType(INTEGER), AutoInc, PrimaryKey */
     val id: Rep[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
-    /** Database column NAME SqlType(VARCHAR), Length(16777216,true) */
-    val name: Rep[Option[String]] = column[Option[String]]("NAME", O.Length(16777216,varying=true))
-    /** Database column ADDRESS SqlType(VARCHAR), Length(16777216,true) */
-    val address: Rep[Option[String]] = column[Option[String]]("ADDRESS", O.Length(16777216,varying=true))
+    /** Database column NAME SqlType(VARCHAR), Length(255,true) */
+    val name: Rep[String] = column[String]("NAME", O.Length(255,varying=true))
+    /** Database column ADDRESS SqlType(VARCHAR), Length(1024,true) */
+    val address: Rep[Option[String]] = column[Option[String]]("ADDRESS", O.Length(1024,varying=true))
   }
                 
   /** Collection-like TableQuery object for table CompanyTable */
