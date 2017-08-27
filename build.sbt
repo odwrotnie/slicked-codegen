@@ -28,6 +28,8 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.43"
 
 libraryDependencies += "org.hsqldb" % "hsqldb" % "2.4.0"
 
+libraryDependencies += "org.apache.derby" % "derby" % "10.13.1.1"
+
 lazy val generateSlickedModel = taskKey[Unit]("Generate Model Code")
 fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
 
