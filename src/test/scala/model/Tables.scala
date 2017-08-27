@@ -18,65 +18,9 @@ trait Tables extends slicked.SlickMappers {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = CompanyCopy30Table.schema ++ CompanyCopy31Table.schema ++ CompanyTable.schema ++ EventTable.schema
+  lazy val schema: profile.SchemaDescription = CompanyTable.schema ++ EventTable.schema
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
-
-  /** Entity class storing rows of table CompanyCopy30Table
-   *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
-   *  @param name Database column NAME SqlType(VARCHAR), Length(255,true)
-   *  @param address Database column ADDRESS SqlType(VARCHAR) */
-  case class CompanyCopy30(id: Long, name: String, address: Option[String]) extends SlickedRow
-  /** GetResult implicit for fetching CompanyCopy30 objects using plain SQL queries */
-  implicit def GetResultCompanyCopy30(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]]): GR[CompanyCopy30] = GR{
-    prs => import prs._
-    CompanyCopy30.tupled((<<[Long], <<[String], <<?[String]))
-  }
-                
-  /** Table description of table COMPANY_COPY_3_0. Objects of this class serve as prototypes for rows in queries. */
-  class CompanyCopy30Table(_tableTag: Tag) extends profile.api.Table[CompanyCopy30](_tableTag, "COMPANY_COPY_3_0") with SlickedTable {
-    def * = (id, name, address) <> (CompanyCopy30.tupled, CompanyCopy30.unapply)
-    /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(id), Rep.Some(name), address).shaped.<>({r=>import r._; _1.map(_=> CompanyCopy30.tupled((_1.get, _2.get, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
-
-    /** Database column ID SqlType(BIGINT), AutoInc, PrimaryKey */
-    val id: Rep[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
-    /** Database column NAME SqlType(VARCHAR), Length(255,true) */
-    val name: Rep[String] = column[String]("NAME", O.Length(255,varying=true))
-    /** Database column ADDRESS SqlType(VARCHAR) */
-    val address: Rep[Option[String]] = column[Option[String]]("ADDRESS")
-  }
-                
-  /** Collection-like TableQuery object for table CompanyCopy30Table */
-  lazy val CompanyCopy30Table = new TableQuery(tag => new CompanyCopy30Table(tag))
-
-  /** Entity class storing rows of table CompanyCopy31Table
-   *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
-   *  @param name Database column NAME SqlType(VARCHAR), Length(255,true)
-   *  @param address Database column ADDRESS SqlType(VARCHAR) */
-  case class CompanyCopy31(id: Long, name: String, address: Option[String]) extends SlickedRow
-  /** GetResult implicit for fetching CompanyCopy31 objects using plain SQL queries */
-  implicit def GetResultCompanyCopy31(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]]): GR[CompanyCopy31] = GR{
-    prs => import prs._
-    CompanyCopy31.tupled((<<[Long], <<[String], <<?[String]))
-  }
-                
-  /** Table description of table COMPANY_COPY_3_1. Objects of this class serve as prototypes for rows in queries. */
-  class CompanyCopy31Table(_tableTag: Tag) extends profile.api.Table[CompanyCopy31](_tableTag, "COMPANY_COPY_3_1") with SlickedTable {
-    def * = (id, name, address) <> (CompanyCopy31.tupled, CompanyCopy31.unapply)
-    /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(id), Rep.Some(name), address).shaped.<>({r=>import r._; _1.map(_=> CompanyCopy31.tupled((_1.get, _2.get, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
-
-    /** Database column ID SqlType(BIGINT), AutoInc, PrimaryKey */
-    val id: Rep[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
-    /** Database column NAME SqlType(VARCHAR), Length(255,true) */
-    val name: Rep[String] = column[String]("NAME", O.Length(255,varying=true))
-    /** Database column ADDRESS SqlType(VARCHAR) */
-    val address: Rep[Option[String]] = column[Option[String]]("ADDRESS")
-  }
-                
-  /** Collection-like TableQuery object for table CompanyCopy31Table */
-  lazy val CompanyCopy31Table = new TableQuery(tag => new CompanyCopy31Table(tag))
 
   /** Entity class storing rows of table CompanyTable
    *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey

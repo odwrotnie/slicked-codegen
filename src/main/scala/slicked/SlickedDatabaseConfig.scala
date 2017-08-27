@@ -1,12 +1,13 @@
 package slicked
 
+import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
 
 object SlickedDatabaseConfig extends LazyLogging {
 
-  val APPLICATION_CONF_ROOT = "model"
+  val APPLICATION_CONF_ROOT = ConfigFactory.load.getString("slicked.config") // model by default
 
   logger.info(s"Database config root: $APPLICATION_CONF_ROOT")
 
