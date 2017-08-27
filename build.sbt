@@ -26,6 +26,8 @@ libraryDependencies += "com.h2database" % "h2" % "1.4.196"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.43"
 
+libraryDependencies += "org.hsqldb" % "hsqldb" % "2.4.0"
+
 lazy val generateSlickedModel = taskKey[Unit]("Generate Model Code")
 fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
 

@@ -52,6 +52,7 @@ class SlickedSourceCodeGenerator(model: Model)
     override def Column = new Column(_) {
       override def rawType: String = model.tpe match {
         case "java.sql.Timestamp" => "org.joda.time.DateTime"
+        case "Int"                => "Long"
         case _                    => super.rawType
       }
     }
