@@ -1,17 +1,23 @@
 package slicked.helpers.server
 
-case class H2Server() {
+import com.typesafe.scalalogging.LazyLogging
 
-  val w = org.h2.tools.Server
-    .createWebServer("-tcpAllowOthers")
-    .start()
+case class H2Server()
+  extends DBServer
+  with LazyLogging {
 
-  val s = org.h2.tools.Server
+  lazy val server = org.h2.tools.Server
     .createTcpServer("-tcpAllowOthers", "-tcpPort", "35853")
-    .start()
 
-  while (true) {
-    println(s"H2: ${s.getStatus} / web: ${w.getStatus}")
-    Thread.sleep(10000)
+  lazy val webServer = org.h2.tools.Server
+    .createWebServer("-tcpAllowOthers")
+
+  override def start: Unit = {
+    server.start()
+    webServer.start()
+    while (true) {
+      logger.info(s"H2: ${server.getStatus} / web: ${webServer.getStatus}")
+      Thread.sleep(10000)
+    }
   }
 }

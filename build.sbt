@@ -6,7 +6,7 @@ version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.11.11"
 
-val slickVersion = "3.2.1"
+val slickVersion = "3.2.0"
 
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
 
@@ -20,9 +20,11 @@ libraryDependencies += "com.typesafe.slick" %% "slick-hikaricp" % slickVersion
 
 libraryDependencies += "joda-time" % "joda-time" % "2.9.9"
 
+libraryDependencies += "com.github.tototoshi" %% "slick-joda-mapper" % "2.3.0"
+
 libraryDependencies += "org.joda" % "joda-convert" % "1.8.2"
 
-libraryDependencies += "com.h2database" % "h2" % "1.4.196"
+libraryDependencies += "com.h2database" % "h2" % "1.3.176" // "1.4.196"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.43"
 
