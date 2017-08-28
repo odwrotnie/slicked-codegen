@@ -25,7 +25,7 @@ case class HSQLDBServer()
   override def start: Unit = {
     server.start()
     while (true) {
-      println(s"H2: ${server.getAddress} / ${server.getStateDescriptor}")
+      println(s"HSQLDB: ${server.getAddress} / ${server.getStateDescriptor}")
       Thread.sleep(10000)
     }
   }
