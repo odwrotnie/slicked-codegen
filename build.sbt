@@ -24,7 +24,7 @@ libraryDependencies += "com.github.tototoshi" %% "slick-joda-mapper" % "2.3.0"
 
 libraryDependencies += "org.joda" % "joda-convert" % "2.0"
 
-libraryDependencies += "com.h2database" % "h2" % "1.4.176"
+libraryDependencies += "com.h2database" % "h2" % "1.3.176"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.43"
 
