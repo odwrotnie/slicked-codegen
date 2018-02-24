@@ -20,6 +20,8 @@ libraryDependencies += "com.typesafe.slick" %% "slick-hikaricp" % slickVersion
 
 libraryDependencies += "joda-time" % "joda-time" % "2.9.9"
 
+libraryDependencies += "com.github.tototoshi" %% "slick-joda-mapper" % "2.3.0"
+
 libraryDependencies += "org.joda" % "joda-convert" % "2.0"
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.196"
