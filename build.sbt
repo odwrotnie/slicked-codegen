@@ -2,9 +2,9 @@ name := "slicked-model"
 
 organization := "it.wext"
 
-version := "1.2"
+version := "1.3.2"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.6"
 
 val slickVersion = "3.2.3"
 
@@ -12,7 +12,7 @@ libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.8.0"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.0-SNAP10"
 
 libraryDependencies += "com.typesafe.slick" %% "slick-codegen" % slickVersion
 
@@ -38,3 +38,9 @@ fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
 //
 
 lazy val slickedModel = project.in(file("."))
+
+//publishTo := Some("Artifactory Realm" at "http://fg:8081/artifactory/sbt-release")
+//credentials += Credentials("Artifactory Realm", "fg", "admin", "Gdanska123")
+
+publishTo := Some("releases" at "http://fg:5002/repository/internal")
+credentials += Credentials("Repository Archiva Managed internal Repository", "fg", "admin", "Dworcowa13")
