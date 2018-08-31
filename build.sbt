@@ -2,7 +2,7 @@ name := "slicked-model"
 
 organization := "it.wext"
 
-version := "1.3.2"
+version := "1.3.4"
 
 scalaVersion := "2.12.6"
 
@@ -39,8 +39,5 @@ fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
 
 lazy val slickedModel = project.in(file("."))
 
-//publishTo := Some("Artifactory Realm" at "http://fg:8081/artifactory/sbt-release")
-//credentials += Credentials("Artifactory Realm", "fg", "admin", "Gdanska123")
-
-publishTo := Some("releases" at "http://fg:5002/repository/internal")
-credentials += Credentials("Repository Archiva Managed internal Repository", "fg", "admin", "Dworcowa13")
+publishTo := Some("releases" at "http://archiva.fairga.me/repository/internal")
+credentials += Credentials("Repository Archiva Managed internal Repository", "archiva.fairga.me", "admin", "Dworcowa13")
