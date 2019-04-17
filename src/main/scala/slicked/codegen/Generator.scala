@@ -5,9 +5,9 @@ import com.typesafe.config.ConfigFactory
 object Generator
   extends App {
 
-  val ROOT = "model"
+  val ROOT = "generator"
 
-  val genConf = ConfigFactory.load("model.generator")
+  val genConf = ConfigFactory.load()
 
   val packageName: String = genConf.getString(s"$ROOT.package")
   val containerName: String = genConf.getString(s"$ROOT.object")
