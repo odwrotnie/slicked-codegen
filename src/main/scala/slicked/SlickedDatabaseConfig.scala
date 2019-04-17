@@ -7,7 +7,7 @@ import slick.jdbc.JdbcProfile
 
 object SlickedDatabaseConfig extends LazyLogging {
 
-  val APPLICATION_CONF_ROOT = ConfigFactory.load.getString("slicked.config") // model by default
+  val APPLICATION_CONF_ROOT = "model"
 
   logger.info(s"Database config root: $APPLICATION_CONF_ROOT")
 

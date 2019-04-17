@@ -31,13 +31,3 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.43"
 libraryDependencies += "org.hsqldb" % "hsqldb" % "2.4.0"
 
 libraryDependencies += "org.apache.derby" % "derby" % "10.14.1.0"
-
-lazy val generateSlickedModel = taskKey[Unit]("Generate Model Code")
-fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
-
-//
-
-lazy val slickedModel = project.in(file("."))
-
-publishTo := Some("releases" at "http://archiva.fairga.me/repository/internal")
-credentials += Credentials("Repository Archiva Managed internal Repository", "archiva.fairga.me", "admin", "Dworcowa13")
