@@ -2,7 +2,7 @@ package slicked.codegen
 
 import com.typesafe.config.ConfigFactory
 
-trait GeneratorTask
+object Generator
   extends App {
 
   val ROOT = "model"
