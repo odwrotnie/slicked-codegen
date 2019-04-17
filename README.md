@@ -14,46 +14,52 @@ Add to build.sbt:
 lazy val slickedCodegen = RootProject(uri("git://github.com/odwrotnie/slicked-codegen.git"))
 lazy val root = Project("root", file(".")) dependsOn(slickedCodegen)
 
-lazy val generateSlickedModel = taskKey[Unit]("Generate Model Code")
-fullRunTask(generateSlickedModel, Compile, "slicked.codegen.Generate")
+lazy val gen = taskKey[Unit]("Generate Model Code")
+fullRunTask(gen, Compile, "slicked.codegen.Generator")
+
 ```
 
-Run `sbt generateSlickedModel` to generate the model
+Run `sbt gen` to generate the model
 
 ## Configuration
 
-`resources/application.conf`
+`resources/reference.conf`
 
 ### H2
 
 ```
-model {
-  profile = "slick.jdbc.H2Profile"
-  generator = {
-    object = "Tables"
-    package = "slicked.model"
-  }
+generator = {
+  object = "Tables"
+  package = "model"
+  tableFilterRegex = ".*"
+}
+
+database {
+  profile = "slick.jdbc.H2Profile$"
   db = {
     dataSourceClass = "slick.jdbc.DatabaseUrlDataSource"
     properties = {
       driver = "org.h2.Driver"
-      url = "jdbc:h2:./example"
+      url = "jdbc:h2:./db/h2"
     }
     keepAliveConnection = true
     numThreads = 1
   }
 }
+
 ```
 
 ### MySQL
 
 ```
-model {
+generator = {
+  object = "Tables"
+  package = "model"
+  tableFilterRegex = ".*"
+}
+
+database {
   profile = "slick.jdbc.MySQLProfile"
-  generator = {
-    object = "Tables"
-    package = "slicked.model"
-  }
   db = {
     dataSourceClass = com.mysql.jdbc.jdbc2.optional.MysqlDataSource
     properties = {

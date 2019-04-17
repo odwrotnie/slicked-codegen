@@ -1,10 +1,6 @@
 package slicked
 
-import java.sql.Timestamp
-
 import com.typesafe.scalalogging.LazyLogging
-import org.joda.time.DateTime
-import slick.jdbc.JdbcProfile
 import slick.jdbc.meta.MTable
 import slick.lifted.CanBeQueryCondition
 
