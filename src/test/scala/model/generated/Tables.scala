@@ -1,4 +1,4 @@
-package model
+package model.generated
 
 trait Tables extends slicked.SlickMappers {
 

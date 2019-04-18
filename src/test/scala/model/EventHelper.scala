@@ -1,5 +1,6 @@
 package model
 
+import model.generated.Tables
 import slicked.SlickedDatabaseConfig
 import slicked.helpers.EntityHelper
 

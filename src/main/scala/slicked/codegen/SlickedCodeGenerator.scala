@@ -29,6 +29,13 @@ case class SlickedCodeGenerator(packageName: String,
       scg.tablesByName.keys foreach { key =>
         logger.info(s"Generated table: ${ key.table }")
       }
+
+//      scg.writeToMultipleFiles(
+//        dbConfig.profileName,
+//        folder,
+//        packageName,
+//        containerName)
+
       scg.writeToFile(
         dbConfig.profileName,
         folder,
