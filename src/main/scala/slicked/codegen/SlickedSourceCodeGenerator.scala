@@ -170,6 +170,8 @@ class SlickedSourceCodeGenerator(model: Model)
       List.fill(n)(".tail").mkString("")
     }
 
+
+
     // override column generator to add additional types
     //      override def Column = new Column(_) {
     //        override def rawType = {

@@ -9,15 +9,13 @@ class GeneratorTest extends FlatSpec with LazyLogging {
 
   "Generator" should "generate" in {
 
-    val xConf = ConfigFactory.load
-    val genConf = xConf.getConfig("model.generator")
+    val conf = ConfigFactory.load
 
-    val packageName: String = genConf.getString("package")
-    val containerName: String = genConf.getString("object")
+    val packageName: String = conf.getString("generator.package")
+    val containerName: String = conf.getString("generator.object")
     val fileName: String = s"$containerName.scala"
-    val folderPath: String =
-      s"src/test/scala/${packageName.split(".").mkString("/")}"
-    val tableFilterRegex: String = genConf.getString("tableFilterRegex")
+    val folderPath: String = s"src/test/scala/${packageName.split(".").mkString("/")}"
+    val tableFilterRegex: String = conf.getString("generator.tableFilterRegex")
 
     val scg = SlickedCodeGenerator(packageName,
                                    containerName,
